@@ -1,0 +1,37 @@
+erDiagram
+    CLUBES ||--o{ JOGADORES : possui
+    CLUBES ||--o{ PARTIDAS : "e mandante"
+    CLUBES ||--o{ PARTIDAS : "e visitante"
+    JOGADORES ||--o{ GOLS : marca
+    PARTIDAS ||--o{ GOLS : registra
+
+    CLUBES {
+        NUMBER id_clube PK "19 digitos; IDENTITY; NOT NULL"
+        VARCHAR2 nome UK "100 caracteres; NOT NULL; UNIQUE"
+        VARCHAR2 cidade "80 caracteres; opcional"
+    }
+
+    JOGADORES {
+        NUMBER id_jogador PK "19 digitos; IDENTITY; NOT NULL"
+        VARCHAR2 nome "100 caracteres; NOT NULL"
+        VARCHAR2 posicao "20 caracteres; NOT NULL; CHECK posicoes"
+        NUMBER id_clube FK "19 digitos; NOT NULL"
+    }
+
+    PARTIDAS {
+        NUMBER id_partida PK "19 digitos; IDENTITY; NOT NULL"
+        NUMBER id_mandante FK "19 digitos; NOT NULL"
+        NUMBER id_visitante FK "19 digitos; NOT NULL; diferente do mandante"
+        NUMBER rodada "10 digitos; maior que zero; NOT NULL"
+        DATE data_partida "NOT NULL; sem horario"
+        VARCHAR2 status "10 caracteres; ABERTA ou FINALIZADA; NOT NULL"
+        NUMBER gols_mandante "10 digitos; NULL se ABERTA; maior ou igual a zero se FINALIZADA"
+        NUMBER gols_visitante "10 digitos; NULL se ABERTA; maior ou igual a zero se FINALIZADA"
+    }
+
+    GOLS {
+        NUMBER id_gol PK "19 digitos; IDENTITY; NOT NULL"
+        NUMBER id_partida FK "19 digitos; NOT NULL"
+        NUMBER id_jogador FK "19 digitos; NOT NULL"
+        NUMBER minuto "3 digitos; 1 a 130; NOT NULL"
+    }
